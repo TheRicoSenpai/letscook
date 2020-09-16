@@ -1,0 +1,40 @@
+<form [formGroup]="form" fxLayoutGap="10px">
+  <mat-form-field >
+    <input type="text"
+    matInput
+      placeholder="Food"
+      required
+      formControlName="name"
+      [matAutocomplete]="autoFoodGroup">
+      <mat-autocomplete #autoFoodGroup>
+        <mat-optgroup *ngFor="let foodGroup of foodsOptions | async" [label]="foodGroup.type">
+          <mat-option *ngFor="let food of foodGroup.names" [value]="food">
+            {{food}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field *ngIf="!hasFoodType">
+      <mat-select placeholder="Type of Food" formControlName="foodType">
+        <mat-option *ngFor="let ft of foodTypes" [value]="ft">
+          {{ft}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput type="number" placeholder="Quantity" formControlName="quantity"/>    
+    </mat-form-field>
+    <mat-form-field>
+      <input type="text"
+      matInput
+      placeholder="Unit"
+      required
+      formControlName="unit"
+      [matAutocomplete]="autoGroup">
+      <mat-autocomplete #autoGroup>
+        <mat-option *ngFor="let name of unitsOptions | async" [value]="name">
+          {{name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+</form>

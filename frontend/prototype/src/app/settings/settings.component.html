@@ -1,0 +1,53 @@
+<div *ngIf="cook">
+    <div fxLayout="column" fxLayoutAlign="start center">
+        <button mat-fab class="example-header-image" [style.background-image]="'url('+ cook?.settings.photoPath +')'"></button>
+        <p style="margin: 5px 3px 0px 3px;">{{cook?.login}}</p>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    <div [formGroup]="form" fxLayout="column" fxLayoutAlign="start start" class="formDiv">
+        <mat-form-field>
+            <mat-label>Pseudo</mat-label>
+            <input matInput type="text" formControlName="pseudo">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Photo Path</mat-label>
+            <input matInput type="url" formControlName="photoPath">
+        </mat-form-field>
+        <mat-slide-toggle color="primary" formControlName="cache">
+            Using cache
+        </mat-slide-toggle>
+        <br>
+        <mat-slide-toggle color="primary" formControlName="darkTheme" (change)="toggleDarkTheme($event.checked)">
+            Dark theme
+        </mat-slide-toggle>
+        <br>
+        <mat-form-field>
+            <mat-label>Language</mat-label>
+            <mat-select formControlName="lang">
+                <mat-option *ngFor="let language of languages" [value]="language.lang">{{language.text}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="4px">
+        <button mat-flat-button color="primary" (click)="openDialog()">Dialog</button>
+        <button mat-flat-button color="primary" (click)="openSnackbar()">default Snackbar</button>
+        <button mat-flat-button color="primary" (click)="openSnackbar('info')">info Snackbar</button>
+        <button mat-flat-button color="primary" (click)="openSnackbar('warn')">warn Snackbar</button>
+        <button mat-flat-button color="primary" (click)="openSnackbar('error')">error Snackbar</button>
+        <button mat-flat-button color="primary" (click)="openSnackbar('success')">success Snackbar</button>
+    </div>
+    <br>
+    <br>
+    <mat-divider></mat-divider>
+</div>
+<br>
+<div fxLayout="column" fxLayoutAlign="start center">
+    <button *ngIf="cook" mat-flat-button color="primary" (click)="logout()">Logout</button>
+    <a *ngIf="!cook" mat-flat-button color="primary" (click)="login()">Login</a>
+</div>
+
+<button id="menubutton" mat-fab color="primary" (click)="save()" *ngIf="form.dirty && form.valid">
+    <mat-icon>save</mat-icon>
+</button>

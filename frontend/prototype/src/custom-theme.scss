@@ -1,0 +1,52 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+@import './theme.scss';
+
+
+@import './app/core/shared/component/side-menu/side-menu.component-themes.scss';
+@import './app/core/shared/component//dialog/dialog.component.css-theme.scss';
+@import './app/core/shared/service/notification/notification.scss-theme.scss';
+@import './app/recipes/recipe-detail/recipe-detail.component.scss-them.scss';
+
+@mixin custom-components-theme($theme) {
+  @include sidenav-component-theme($theme);
+  @include dialog-component-theme($theme);
+  @include notification-theme($theme);
+  @include preparation-theme($theme);
+  body{
+    $background: map-get($theme, background);
+    background-color: mat-color($background, app-bar);
+    // background-color: green;
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+  }
+}
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($dark-theme);
+@include custom-components-theme($dark-theme);
+// @include notification-theme($dark-theme);
+// Our dark theme
+.dark-theme {
+  color: $light-primary-text;
+  @include angular-material-color($dark-theme);
+  @include custom-components-theme($dark-theme);
+  // @include dark-notification-theme($dark-theme);
+}
+.light-theme {
+  // use our theme with angular-material-theme mixin
+  @include angular-material-color($light-theme);
+  @include custom-components-theme($light-theme);
+  // @include notification-theme($light-theme);
+}

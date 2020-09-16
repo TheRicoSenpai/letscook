@@ -1,0 +1,26 @@
+/* Add application styles & imports to this file! */
+// @import '~@angular/material/theming';
+
+/* always include only once per project */
+// @include mat-core();
+
+/* @import "themes"; */
+@import "custom-theme.scss";
+
+/* You can add global styles to this file, and also import other style files */
+
+
+
+
+html, body { height: 100%; }
+// body { 
+//     background-color: red;
+//     margin: 0; 
+//     font-family: Roboto, "Helvetica Neue", sans-serif; 
+// }
+
+button#menubutton {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+}

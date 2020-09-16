@@ -1,0 +1,24 @@
+<mat-chip-list #hashtagChipList aria-label="Hashtags selection">
+    <mat-chip
+    *ngFor="let hashtag of hashtags"
+    [selectable]="selectable"
+    [removable]="removable"
+    (removed)="removeHashtag(hashtag)">
+    {{hashtag}}
+    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  </mat-chip>
+  <input *ngIf="canModify"
+  matinput
+  placeholder="New hashtag..."
+  #hashtagInput
+  [formControl]="hashtagCtrl"
+  [matAutocomplete]="autoHashtags"
+  [matChipInputFor]="hashtagChipList"
+    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+    (matChipInputTokenEnd)="addHashtag($event)">
+  </mat-chip-list>
+  <mat-autocomplete #autoHashtags="matAutocomplete" (optionSelected)="hashtagSelected($event)">
+    <mat-option *ngFor="let hashtag of filteredHashtags | async" [value]="hashtag">
+      {{hashtag}}
+    </mat-option>
+  </mat-autocomplete>

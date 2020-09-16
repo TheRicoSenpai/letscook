@@ -1,0 +1,81 @@
+<div fxLayout="column" style="margin: 30px;">
+    <h2>To Do</h2>
+    <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" > 
+        <mat-checkbox  color="primary" [(ngModel)]="itemDetail.shoppingListItem.isChecked">
+        </mat-checkbox>       
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center"  *ngIf="!itemDetail.detailVisible">
+            <mat-form-field *ngIf="!itemDetail.detailVisible">
+                <input matInput type="text" placeholder="New Item" (focus)="modifyItem(itemDetail)"/>
+            </mat-form-field>        
+            <button mat-icon-button color="primary" (click)="modifyItem(itemDetail)">
+                <mat-icon>forward</mat-icon>
+            </button>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center"  *ngIf="itemDetail.detailVisible">
+            <app-ingredients 
+                [name]="form.controls.name" 
+                [quantity]="form.controls.quantity" 
+                [unit]="form.controls.unit" 
+                [foodType]="form.controls.foodType">
+            </app-ingredients>
+            <button mat-icon-button color="primary" (click)="addItem(itemDetail)">
+                <mat-icon>save</mat-icon>
+            </button>
+            <button mat-icon-button color="primary" (click)="cancelItem(itemDetail)" >
+                <mat-icon>undo</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div 
+    cdkDropList
+    [cdkDropListData]="items | async"
+    (cdkDropListDropped)="drop($event)">
+        <div *ngFor="let slid of items | async" cdkDrag class="test">
+            <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" *ngIf="!slid.shoppingListItem.isChecked">
+                <mat-icon class="move-icon">drag_handle</mat-icon>
+                <mat-checkbox color="primary" [(ngModel)]="slid.shoppingListItem.isChecked" (click)="updateCkeckedItem(slid)">
+                </mat-checkbox>
+                <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" *ngIf="!slid.detailVisible">
+                    <mat-form-field>
+                        <input matInput type="text" readonly [value]="displayIngredient(slid.shoppingListItem.ingredient)"/>
+                    </mat-form-field>   
+                    <button mat-icon-button color="primary" (click)="modifyItem(slid)">
+                        <mat-icon>create</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="removeItem(slid)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+                <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" *ngIf="slid.detailVisible">                
+                    <app-ingredients 
+                        [name]="form.controls.name" 
+                        [quantity]="form.controls.quantity" 
+                        [unit]="form.controls.unit" 
+                        [foodType]="form.controls.foodType">
+                    </app-ingredients>
+                    <button mat-icon-button color="primary" (click)="updateItem(slid)" >
+                        <mat-icon>save</mat-icon>
+                    </button> 
+                    <button mat-icon-button color="primary" (click)="cancelItem(slid)">
+                        <mat-icon>undo</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<mat-divider></mat-divider>
+
+<div fxLayout="column" style="margin: 30px;">
+    <h2>Done</h2>
+    <div *ngFor="let slid of items| async">
+        <mat-checkbox color="primary" [(ngModel)]="slid.shoppingListItem.isChecked" disabled *ngIf="slid.shoppingListItem.isChecked" (click)="updateCkeckedItem(slid)">
+            <label style="text-decoration: line-through ;">{{displayIngredient(slid.shoppingListItem.ingredient)}}</label>
+        </mat-checkbox>
+    </div>
+</div>
+
+<button id="menubutton" mat-fab color="primary" (click)="openConfirmDialog()">
+    <mat-icon>done_all</mat-icon>
+</button>
