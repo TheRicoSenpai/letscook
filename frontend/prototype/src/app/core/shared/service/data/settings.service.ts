@@ -4,37 +4,26 @@ import { NotificationService } from '../notification/notification.service';
 import { Observable } from 'rxjs';
 import { Settings } from 'src/app/model';
 import { map } from 'rxjs/operators';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SettingsService {
+export class SettingsService extends BaseService {
 
   constructor(private http: HttpClient,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService) { super();  }
 
-    public needsRefresh = new EventEmitter();
+    private controller = 'settings';
 
     public getSettings(cookId: string): Observable<any>{
-      return this.http.get(`https://localhost:44386/settings/${cookId}`).pipe(
+      return this.http.get(`${this.url}/${this.controller}/${cookId}`).pipe(
         map((value: Settings[]) => value)
       );
     }
 
-    // public postSettings(settings: Settings){
-    //   this.http.post<Settings>(`https://localhost:44386/settings`, settings).subscribe(() =>
-    //   {
-    //     this.needsRefresh.emit();
-    //     this.notificationService.success('Ingredient added to your inventory.');
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //     this.notificationService.error('Error server !');
-    //   });
-    // }
-
     public putSettings(cookId: string, settings: Settings){
-      this.http.put(`https://localhost:44386/settings/${cookId}`, settings).subscribe(() =>
+      this.http.put(`${this.url}/${this.controller}/${cookId}`, settings).subscribe(() =>
       {
         this.notificationService.success('Settings modified');
         this.needsRefresh.emit();
@@ -44,14 +33,4 @@ export class SettingsService {
         this.notificationService.error('Error server !');
       });
     }
-
-    // public deleteSettings(id: string){
-    //   this.http.delete<Settings>(`https://localhost:44386/settings/${id}`).subscribe(() =>
-    //   {
-    //     this.needsRefresh.emit();
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //   });
-    // }
   }

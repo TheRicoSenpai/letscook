@@ -4,19 +4,20 @@ import { NotificationService } from '../notification/notification.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Cook } from 'src/app/model/cook';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CooksService {
+export class CooksService extends BaseService {
 
   constructor(private http: HttpClient,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService) { super(); }
 
-  public needsRefresh = new EventEmitter();
+  private controller = 'cooks';
 
   public getCook(id: string): Observable<any>{
-    return this.http.get(`https://localhost:44386/cooks/${id}`).pipe(
+    return this.http.get(`${this.url}/${this.controller}/${id}`).pipe(
       map((value: Cook) => value),
     );
   }

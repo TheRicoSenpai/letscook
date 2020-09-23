@@ -4,19 +4,20 @@ import { NotificationService } from '../notification/notification.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Ingredient } from 'src/app/model';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InventoryService {
+export class InventoryService extends BaseService {
 
   constructor(private http: HttpClient,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService) { super(); }
 
-  public needsRefresh = new EventEmitter();
+  private controller = 'inventory';
 
   public getStock(cookId: string): Observable<any>{
-    return this.http.get(`https://localhost:44386/inventory/${cookId}`).pipe(
+    return this.http.get(`${this.url}/${this.controller}/${cookId}`).pipe(
       map((value: Ingredient[]) => value)
     );
   }
@@ -24,7 +25,7 @@ export class InventoryService {
 
   public postStockIngredient(cookId: string, ingredient: Ingredient){
     if (ingredient){
-      this.http.post<Ingredient>(`https://localhost:44386/inventory/${cookId}`, ingredient).subscribe(() =>
+      this.http.post<Ingredient>(`${this.url}/${this.controller}/${cookId}`, ingredient).subscribe(() =>
       {
         this.needsRefresh.emit();
         this.notificationService.success('Ingredient added to your inventory.');
@@ -38,7 +39,7 @@ export class InventoryService {
 
   public putStockIngredient(cookId: string, ingredient: Ingredient){
     if (ingredient){
-      this.http.put(`https://localhost:44386/inventory/${cookId}`, ingredient).subscribe(() =>
+      this.http.put(`${this.url}/${this.controller}/${cookId}`, ingredient).subscribe(() =>
       {
         this.notificationService.success('Inventory modified');
         this.needsRefresh.emit();
@@ -51,7 +52,7 @@ export class InventoryService {
   }
 
   public deleteStockIngredient(cookId: string, id: string){
-    this.http.delete<Ingredient>(`https://localhost:44386/inventory/${cookId}/${id}`).subscribe(() =>
+    this.http.delete<Ingredient>(`${this.url}/${this.controller}/${cookId}/${id}`).subscribe(() =>
     {
       this.notificationService.success('Ingredient deleted');
       this.needsRefresh.emit();

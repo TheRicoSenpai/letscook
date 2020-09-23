@@ -4,26 +4,27 @@ import { NotificationService } from '../notification/notification.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ShoppingListItem } from 'src/app/model/shopping-list-item';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShoppingListService {
+export class ShoppingListService extends BaseService {
 
   constructor(private http: HttpClient,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService) { super(); }
 
-  public needsRefresh = new EventEmitter();
+  private controller = 'shopping-list';
 
   public getShoppingList(cookId: string): Observable<any>{
-    return this.http.get(`https://localhost:44386/shopping-list/${cookId}`).pipe(
+    return this.http.get(`${this.url}/${this.controller}/${cookId}`).pipe(
       map((value: ShoppingListItem[]) => value)
     );
   }
 
 
   public postShoppingListItem(cookId: string, sli: ShoppingListItem, withNotification: boolean){
-    this.http.post<ShoppingListItem>(`https://localhost:44386/shopping-list/${cookId}`, sli).subscribe(() =>
+    this.http.post<ShoppingListItem>(`${this.url}/${this.controller}/${cookId}`, sli).subscribe(() =>
     {
       this.needsRefresh.emit();
       if (withNotification){
@@ -37,7 +38,7 @@ export class ShoppingListService {
   }
 
   public putShoppingListItem(cookId: string, sli: ShoppingListItem){
-    this.http.put(`https://localhost:44386/shopping-list/${cookId}/${sli.id}`, sli).subscribe(() =>
+    this.http.put(`${this.url}/${this.controller}/${cookId}/${sli.id}`, sli).subscribe(() =>
     {
       // this.notificationService.success('Inventory modified');
       this.needsRefresh.emit();
@@ -48,7 +49,7 @@ export class ShoppingListService {
     });
   }
   public putShoppingList(cookId: string, sl: ShoppingListItem[]){
-    this.http.put(`https://localhost:44386/shopping-list/${cookId}`, sl).subscribe(() =>
+    this.http.put(`${this.url}/${this.controller}/${cookId}`, sl).subscribe(() =>
     {
       // this.notificationService.success('Inventory modified');
       this.needsRefresh.emit();
@@ -61,7 +62,7 @@ export class ShoppingListService {
 
   public deleteShoppingListItem(cookId: string, id: string, msg: string){
     console.log('cookId: ' + cookId + ' id: ' + id);
-    this.http.delete<ShoppingListItem>(`https://localhost:44386/shopping-list/${cookId}/${id}`).subscribe(() =>
+    this.http.delete<ShoppingListItem>(`${this.url}/${this.controller}/${cookId}/${id}`).subscribe(() =>
     {
       this.needsRefresh.emit();
       if (msg) {
