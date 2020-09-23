@@ -1,0 +1,19 @@
+<div fxLayout="column" fxLayout.gt-xs="row + wrapDirection" fxLayoutGap="4px">
+    <div *ngFor="let foodGroup of foodGroups | async">
+        <div *ngIf="foodGroup.ingredients?.length > 0">
+            <mat-list>
+                <div mat-subheader>{{foodGroup.type}}</div>
+                <mat-list-item *ngFor="let ing of foodGroup.ingredients">
+                    {{ displayIngredient(ing)}}
+                    <button mat-icon-button color="primary" (click)="openUpdateIngredient(ing)" matSuffix> <mat-icon>create</mat-icon></button>
+                    <button mat-icon-button color="primary" (click)="removeIngredient(ing)" matSuffix><mat-icon>delete</mat-icon></button>
+                    <button mat-icon-button color="primary" (click)="addIngredientToShoppingList(ing)" matSuffix><mat-icon>add_shopping_cart</mat-icon></button>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+</div>
+
+<button id="menubutton" mat-fab color="primary" (click)="openInsertIngredient()">
+    <mat-icon>add</mat-icon>
+</button>

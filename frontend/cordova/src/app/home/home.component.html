@@ -1,0 +1,26 @@
+<div>  
+  <br>
+  <div class="header" align="center">Full Ingredients Recipes ({{fullRecipes.length}})</div>
+  <br>
+  <div fxLayout="column" fxLayout.gt-sm="row + wrapDirection" fxLayoutAlign="space-evenly start">
+    <div *ngFor="let recipe of fullRecipes">
+      <app-recipe-detail mat-line [recipe]="recipe" [stock]="inventory" [cook]="cook" [isRealizeable]="true" [isReadonly]="true" (realized)="recipeRealizedHandler({recipe: recipe, result: $event})"></app-recipe-detail>
+    </div>
+  </div>
+  <div align="center" style="opacity: 50%; transform: scale(2);"><mat-icon>more_horiz</mat-icon></div>
+  <mat-divider></mat-divider>  
+  <br>
+  <div class="header" align="center">Partial Ingredients Recipes ({{partialRecipes.length}})</div>
+  <br>
+  <div fxLayout="column" fxLayout.gt-sm="row + wrapDirection" fxLayoutAlign="space-evenly start">
+    <div *ngFor="let recipe of partialRecipes">
+      <app-recipe-detail mat-line [recipe]="recipe" [stock]="inventory" [cook]="cook" [isReadonly]="true" [isRealizeable]="true"></app-recipe-detail>
+    </div>
+  </div>
+</div>
+
+<button id="menubutton" mat-fab color="primary" [matMenuTriggerFor]="aboveMenu"><mat-icon>add</mat-icon></button>
+<mat-menu #aboveMenu="matMenu" yPosition="above">
+  <button mat-menu-item (click)="openIngredientDialog()">Add Articles</button>
+  <button mat-menu-item (click)="openRecipeDialog()">Add Recipe</button>
+</mat-menu>

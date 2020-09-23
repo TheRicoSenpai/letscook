@@ -1,0 +1,80 @@
+<mat-card style="margin: 5px; max-width: 750px;" fxLayout="column" class="recipe-card">
+  <!-- <h2 style="text-align: center; font-weight: bold;">{{recipe.name}}</h2> -->
+  <!-- <button class="favorite" mat-card-avatar mat-icon-button (click)="isFavorite()" color="primary">  <mat-icon>{{ recipe.Favorite | favoritepipe}}</mat-icon></button> -->
+  <mat-card-header>
+    <mat-card-title>{{recipe.name}}</mat-card-title>
+    <mat-card-subtitle>{{recipe.hashtags}}</mat-card-subtitle>
+    <button class="favorite" mat-card-avatar mat-icon-button (click)="isFavorite()" color="primary">  <mat-icon>{{ recipe.favorite | favoritepipe}}</mat-icon></button>
+  </mat-card-header>
+  <br>
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <!-- <mat-card fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-around center" fxLayoutGap="4px"> -->
+      <mat-card fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="4px" fxFlex="nogrow">
+        <mat-form-field class="recap">
+          <mat-label><mat-icon>restaurant</mat-icon> Servings</mat-label>
+          <button mat-icon-button matPrefix (click)="modifyPeople(-1)">-</button>
+          <input type="text" matInput min="1" readonly [(ngModel)]="servings">
+          <button mat-icon-button matSuffix (click)="modifyPeople(+ 1)">+</button>
+        </mat-form-field>
+        <mat-form-field class="recap">
+          <mat-label><mat-icon>update</mat-icon> Preparation</mat-label>
+          <input type="text" matInput readonly [value]="prepTime()">
+        </mat-form-field>
+        <mat-form-field class="recap">
+          <mat-label><mat-icon>whatshot</mat-icon> Cooking</mat-label>
+          <input type="text" matInput readonly [value]="cookingTime()">
+        </mat-form-field>
+      </mat-card>
+      <!-- <div fxLayoutAlign="center"> -->
+      <div id="imgDiv" >
+        <!-- <div  fxLayoutAlign="center center"> -->
+          <img mat-card-image [src]="recipe.photoPath">
+        <!-- </div> -->
+      </div>  
+    </div>
+    <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-around start" fxLayoutGap="4px">
+      <mat-list>
+        <div mat-subheader fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="4px">
+          <mat-icon>text_snippet</mat-icon><div>Ingredients</div>
+        </div>
+        <mat-list-item *ngFor="let ing of recipe.ingredients" class="mat-list-item-word-wrap">
+          <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+          <div mat-line>
+            {{displayIng(ing)}} <span *ngIf="stockIngredient(ing)" [class]="stock && stockIngredientExists(ing) ? 'available-ingredient' : 'missing-ingredient'">({{stockIngredient(ing)}})</span>
+          </div>
+        </mat-list-item>
+      </mat-list>
+      <mat-list>
+        <div mat-subheader fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="4px">
+          <mat-icon>menu_book</mat-icon><div>Directions</div>
+        </div>
+        <mat-list-item *ngFor="let drt of recipe.directions" class="mat-list-item-word-wrap">
+          <mat-icon mat-list-icon>navigate_next</mat-icon>
+          <div mat-line class="mat-line-directions">{{drt}}</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <app-hashtag-list
+      [hashtags]="recipe.hashtags"
+      [selectable]="false"
+      [removable]="false"
+      [canModify]="false"
+      [allHashtags]="recipeTypes"></app-hashtag-list>
+  </mat-card-content>
+  <button *ngIf="!isReadonly" id="menubutton" mat-fab color="primary" [matMenuTriggerFor]="aboveMenu">
+    <mat-icon >create</mat-icon>
+  </button>
+  <mat-menu #aboveMenu="matMenu" yPosition="above">
+    <button mat-menu-item (click)="openUpsertRecipeDialog()">Modify</button>
+    <button mat-menu-item (click)="openConfirmDeleteDialog()">Delete</button>
+    <button mat-menu-item (click)="openConfirmAddShoppingListDialog()">Add ingredients to shopping list</button>
+  </mat-menu>
+
+  <button *ngIf="isRealizeable && isFull && !isPartial" id="menubutton" mat-fab color="primary" (click)="openConfirmaRealizedDialog()">
+    <mat-icon>check</mat-icon>
+  </button>
+  <button *ngIf="isRealizeable && isPartial && !isFull" id="menubutton" mat-fab color="primary" (click)="openConfirmaRealizedPartialDialog()">
+    <mat-icon>done_all</mat-icon>
+  </button>
+</mat-card>

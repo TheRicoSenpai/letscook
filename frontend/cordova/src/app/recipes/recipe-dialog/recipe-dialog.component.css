@@ -1,0 +1,15 @@
+/* .favorite{
+    position: relative;
+    left: 95%;
+    top: -20%;
+} */
+.mat-mini-fab {
+    transform: scale(0.75);
+    vertical-align: middle;
+}
+.example-chip-list {
+    width: 100%;
+  }
+textarea {
+    width: 100%;
+}

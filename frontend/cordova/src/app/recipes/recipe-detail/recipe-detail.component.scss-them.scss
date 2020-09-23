@@ -1,0 +1,21 @@
+@import '~@angular/material/theming';
+
+@mixin preparation-theme($theme) {
+
+    $background: map-get($theme, background);
+    .prep{
+        border: 1px solid mat-color($background, default-contrast);
+        border-radius: 4px;
+        padding: 10px;;
+        color: mat-color($background, default-contrast);
+    }
+
+    .missing-ingredient {
+        font-size: smaller;
+        color: mat-color($theme-warning);
+    }
+    .available-ingredient {
+        font-size: smaller;
+        color: mat-color($theme-success);
+    }
+}

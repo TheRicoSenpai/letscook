@@ -1,0 +1,39 @@
+
+    
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="over" fixedInViewport="true" [attr.color]="themeColor">
+        <div fxLayout="column" fxLayoutAlign="center center">
+            <a mat-fab class="example-header-image" [style.background-image]="'url('+ cook?.settings.photoPath +')'" routerLink="{{settingsLink}}" (click)="sidenav.toggle()"></a>
+            <p style="margin: 5px 3px 0px 3px;">{{cook?.settings.pseudo}}</p>
+            <p style="font-size: smaller;">Recipes: {{recipesLength}}<br>
+            Inventory: {{inventoryLength}}<br>
+            Shopping list: {{shoppingListLength}}</p>
+        </div>
+
+        <mat-divider></mat-divider>
+        
+        <a *ngFor="let menu of menuItems" class="card" routerLink="{{menu.url}}" (click)="sidenav.toggle()" fxLayoutAlign="start"  fxLayoutAlign.lt-md="center">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+                <mat-icon margin="0" fxHide.gt-sm style="transform: scale(1.25);">{{menu.icon}}</mat-icon>
+                <mat-icon fxHide.lt-md matTooltip="Tooltip above the element">{{menu.icon}}</mat-icon>
+                <p fxHide.lt-md>{{menu.text}}</p>
+            </div>
+        </a>
+    </mat-sidenav>
+    <mat-sidenav-content>        
+        <mat-toolbar [color]="themeColor">
+            <mat-toolbar-row fxLayoutAlign="start center">
+                <button type="button" mat-icon-button (click)="sidenav.toggle()" aria-label="Example icon button with a menu icon">
+                    <mat-icon>menu</mat-icon>
+                </button>      
+                <h1 style="margin: 0 0 0 30px;">{{currentMenu}} <mat-icon style="vertical-align: sub;">restaurant</mat-icon></h1>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <app-home *ngIf="route === '/home' || route === '/' " [cook]="cook"></app-home>
+        <app-recipes *ngIf="route === '/recipes'" [cook]="cook"></app-recipes>
+        <app-inventory *ngIf="route === '/inventory'" [cook]="cook"></app-inventory>
+        <app-shopping-list *ngIf="route === '/shopping-list'" [cook]="cook"></app-shopping-list>
+        <app-settings *ngIf="route === '/settings'" [cook]="cook"></app-settings>
+        <!-- <div id="backgroundIcon" ><mat-icon>{{currentIcon}}</mat-icon></div> -->
+    </mat-sidenav-content>
+</mat-sidenav-container>

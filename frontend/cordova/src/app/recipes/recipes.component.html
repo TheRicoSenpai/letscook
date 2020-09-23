@@ -1,0 +1,8 @@
+<div fxLayout="column" fxLayout.gt-sm="row + wrapDirection" fxLayoutAlign="space-evenly start">
+    <div *ngFor="let recipe of recipes">
+        <app-recipe-detail [recipe]="recipe"  [stock]="inventory" [cook]="cook"></app-recipe-detail>
+    </div>
+</div>
+<button id="menubutton" mat-fab color="primary" (click)="openDialog()">
+    <mat-icon>add</mat-icon>
+</button>

@@ -1,0 +1,14 @@
+/* button#menubutton {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+} */
+mat-panel-description {
+    flex-grow: 0;
+  }
+  mat-panel-title {
+      font-size: larger;
+  }
+.header {
+    opacity: 50%;
+}

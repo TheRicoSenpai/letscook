@@ -1,0 +1,9 @@
+<h1 mat-dialog-title align="center" [attr.color]="color">Ingredients</h1> <!--[attr.color]="data.themeColor"-->
+<div mat-dialog-content fxLayoutGap="10px">
+  <app-ingredients [name]="form.controls.name" [quantity]="form.controls.quantity" [unit]="form.controls.unit" [foodType]="form.controls.foodType"></app-ingredients>
+</div>
+<br>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-button [mat-dialog-close]="data" (click)="saveChanges()" cdkFocusInitial>Ok</button>
+</div>

@@ -1,0 +1,42 @@
+<h1 mat-dialog-title align="center" [attr.color]="color">Ingredients used in the recipe</h1>
+<div mat-dialog-content fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center"  *ngIf="!detailVisible">
+    <mat-form-field>
+        <input matInput type="text" placeholder="New Item" (focus)="detailVisible = true">
+    </mat-form-field>        
+    <button mat-icon-button color="primary" (click)="detailVisible = true">
+        <mat-icon>forward</mat-icon>
+    </button>
+  </div>
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center"*ngIf="detailVisible">
+      <app-ingredients 
+          [name]="form.controls.name" 
+          [quantity]="form.controls.quantity" 
+          [unit]="form.controls.unit" 
+          [foodType]="form.controls.foodType"
+          [stock]="stock">
+      </app-ingredients>
+      <button mat-icon-button color="primary" (click)="addItem()">
+          <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="cancelItem()" >
+          <mat-icon>undo</mat-icon>
+      </button>
+  </div>
+    <div *ngFor="let form of forms; let idx=index" fxLayout="row" fxLayoutAlign="start center">
+        <app-ingredients [name]="form.controls.name" 
+        [quantity]="form.controls.quantity" 
+        [unit]="form.controls.unit" 
+        [foodType]="form.controls.foodType"
+        [stock]="stock">
+      </app-ingredients>  
+      <button mat-icon-button color="primary" (click)="removeItem(idx)" >
+        <mat-icon>delete</mat-icon>
+    </button>
+    </div>
+</div>
+<br>
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]>Cancel</button>
+  <button mat-button [mat-dialog-close]="newData" (click)="saveChanges()" cdkFocusInitial>Ok</button>
+</div>
