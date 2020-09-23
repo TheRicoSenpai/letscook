@@ -4,6 +4,7 @@ import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angul
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
     bootstrap: [
@@ -11,6 +12,7 @@ import { AppComponent } from "./app.component";
     ],
     imports: [
         AppRoutingModule,
+        // SharedModule,
         NativeScriptModule,
         NativeScriptUISideDrawerModule
     ],
