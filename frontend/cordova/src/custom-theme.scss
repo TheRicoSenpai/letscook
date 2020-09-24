@@ -29,6 +29,19 @@
     margin: 0; 
     font-family: Roboto, "Helvetica Neue", sans-serif; 
   }
+
+  // mat-form-field {
+  //     width: 150px;
+  //   }
+    @media screen and (max-width: 320px){
+      mat-form-field {
+        // width: 100px;
+        font-size: small;
+      }
+      h1, h2, h3 {
+        font-size: medium;
+      }
+    }
 }
 
 // Include theme styles for core and each component used in your app.

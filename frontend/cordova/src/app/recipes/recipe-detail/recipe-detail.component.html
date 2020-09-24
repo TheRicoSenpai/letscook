@@ -8,8 +8,9 @@
   </mat-card-header>
   <br>
   <mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxLayout="column" fxLayoutAlign="space-around center" fxLayout.gt-xs="row">
       <!-- <mat-card fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-around center" fxLayoutGap="4px"> -->
+      <img mat-card-image [src]="recipe.photoPath">
       <mat-card fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="4px" fxFlex="nogrow">
         <mat-form-field class="recap">
           <mat-label><mat-icon>restaurant</mat-icon> Servings</mat-label>
@@ -26,12 +27,6 @@
           <input type="text" matInput readonly [value]="cookingTime()">
         </mat-form-field>
       </mat-card>
-      <!-- <div fxLayoutAlign="center"> -->
-      <div id="imgDiv" >
-        <!-- <div  fxLayoutAlign="center center"> -->
-          <img mat-card-image [src]="recipe.photoPath">
-        <!-- </div> -->
-      </div>  
     </div>
     <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-around start" fxLayoutGap="4px">
       <mat-list>

@@ -7,7 +7,7 @@
       <app-recipe-detail mat-line [recipe]="recipe" [stock]="inventory" [cook]="cook" [isRealizeable]="true" [isReadonly]="true" (realized)="recipeRealizedHandler({recipe: recipe, result: $event})"></app-recipe-detail>
     </div>
   </div>
-  <div align="center" style="opacity: 50%; transform: scale(2);"><mat-icon>more_horiz</mat-icon></div>
+  <div *ngIf="fullRecipes?.length === 0" align="center" style="opacity: 50%; transform: scale(2);"><mat-icon>more_horiz</mat-icon></div>
   <mat-divider></mat-divider>  
   <br>
   <div class="header" align="center">Partial Ingredients Recipes ({{partialRecipes.length}})</div>
@@ -17,6 +17,8 @@
       <app-recipe-detail mat-line [recipe]="recipe" [stock]="inventory" [cook]="cook" [isReadonly]="true" [isRealizeable]="true"></app-recipe-detail>
     </div>
   </div>
+  <div *ngIf="partialRecipes?.length === 0" align="center" style="opacity: 50%; transform: scale(2);"><mat-icon>more_horiz</mat-icon></div>
+
 </div>
 
 <button id="menubutton" mat-fab color="primary" [matMenuTriggerFor]="aboveMenu"><mat-icon>add</mat-icon></button>
